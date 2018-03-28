@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Montserrat');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+body.second-stage {
+  font-family: 'Indie Flower', cursive;
+  background: hsl(179, 93%, 74%);
+  color: hsl(299, 88%, 57%);
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+div.center {
+  width: 70%;
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+div.button {
+  display: inline-block;
+  border: none;
+  background: hsl(0, 0%, 80%);
+  padding: 0.55rem 1.15rem;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.button:hover,
+.button:focus {
+  background: hsl(0, 0%, 75%);
+}
+
+.button:active {
+  background: hsl(0, 0%, 70%);
+}
+
+body.second-stage div.button {
+  background: hsl(59, 86%, 61%);
+}
+
+body.second-stage .button:hover,
+body.second-stage .button:focus {
+  background: hsl(59, 86%, 56%);
+}
+
+body.second-stage .button:active {
+  background: hsl(59, 86%, 51%);
+}
