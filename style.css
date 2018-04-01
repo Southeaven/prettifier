@@ -4,9 +4,11 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-body.second-stage {
+body.new-font {
   font-family: 'Indie Flower', cursive;
-  background: hsl(179, 93%, 74%);
+}
+
+body.new-color {
   color: hsl(299, 88%, 57%);
 }
 
@@ -19,39 +21,22 @@ body.second-stage {
 }
 
 div.center {
-  width: 70%;
+  width: 75%;
   margin: 0 auto;
 
   text-align: center;
 }
 
-div.button {
+div.section {
+  border-radius: 5px;
+  margin: 1.75rem 0;
+}
+
+.button {
+  background: hsla(0, 0%, 0%, 0);
   display: inline-block;
-  border: none;
-  background: hsl(0, 0%, 80%);
   padding: 0.55rem 1.15rem;
   border-radius: 3px;
   cursor: pointer;
-}
-
-.button:hover,
-.button:focus {
-  background: hsl(0, 0%, 75%);
-}
-
-.button:active {
-  background: hsl(0, 0%, 70%);
-}
-
-body.second-stage div.button {
-  background: hsl(59, 86%, 61%);
-}
-
-body.second-stage .button:hover,
-body.second-stage .button:focus {
-  background: hsl(59, 86%, 56%);
-}
-
-body.second-stage .button:active {
-  background: hsl(59, 86%, 51%);
+  border: 1px solid black;
 }
