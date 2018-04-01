@@ -1,3 +1,7 @@
+let data = {
+  victory: false
+}
+
 let elements = {
   fontSize: new Section('Font size'),
   backgroundColor: new Section('Background color')
@@ -247,6 +251,42 @@ function optionsSection (parent) {
   parent.appendChild(container)
 }
 
+function victoryMessage () {
+  const parent = document.getElementById('parent')
+
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+
+  const container = document.createElement('div')
+  const insideText = document.createTextNode('You successfully improved the game! Good job! You can try again if you want with "Reset game" button!')
+
+  if ('marquee' in document.createElement('marquee')) {
+    const importantMessage = document.createElement('marquee')
+    importantMessage.appendChild(insideText)
+    container.appendChild(importantMessage)
+  } else {
+    const importantMessage = document.createElement('div')
+    importantMessage.appendChild(insideText)
+    setInterval(() => {
+      container.style.display = (container.style.display != 'none' ? 'none' : '')
+    }, 1000)
+    container.appendChild(importantMessage)
+  }
+
+  container.appendChild(document.createElement('br'))
+
+  const resetButton = document.createElement('div')
+  resetButton.classList.add('button')
+  const resetButtonText = document.createTextNode('Reset game')
+  resetButton.appendChild(resetButtonText)
+  resetButton.onclick = resetGame
+  resetButton.setAttribute('style', 'background: hsla(59, 86%, 61%, 1);')
+  container.appendChild(resetButton)
+
+  parent.appendChild(container)
+}
+
 function updateHeaderSize () {
   const multiplier = Math.log10(elements.fontSize.getCoins())
   const size = 1 + (multiplier !== -Infinity ? multiplier : 0)
@@ -281,10 +321,13 @@ function updateGameScreen () {
   for (let key in elements) {
     elements[key].updateInfo()
   }
-  updateHeaderSize()
-  updateBackgroundColor()
-  updateNewFont()
-  updateNewColor()
+  if (!data.victory) {
+    updateHeaderSize()
+    updateBackgroundColor()
+    updateNewFont()
+    updateNewColor()
+    checkForVictory()
+  }
   requestAnimationFrame(updateGameScreen)
 }
 
@@ -309,6 +352,21 @@ function updateNewColor () {
   }
 }
 
+function checkForVictory () {
+  if (elements.fontSize.coins > 1e10 && elements.backgroundColor.coins > 1e10) {
+    data.victory = true
+    victoryMessage()
+  }
+}
+
+function updateStartupScreen () {
+  updateHeaderSize()
+  updateBackgroundColor()
+  updateNewFont()
+  updateNewColor()
+  checkForVictory()
+}
+
 function autoSave () {
   setInterval(() => {
     saveGame()
@@ -317,17 +375,20 @@ function autoSave () {
 
 function saveGame () {
   let gameData = {}
+  gameData.elements = {}
   for (let key in elements) {
-    gameData[key] = elements[key].getData()
+    gameData.elements[key] = elements[key].getData()
   }
+  gameData.victory = data.victory
   localStorage.setItem('prettifier', JSON.stringify(gameData))
 }
 
 function loadGame () {
   let gameData = JSON.parse(localStorage.getItem('prettifier'))
-  for (let key in gameData) {
-    elements[key].setData(gameData[key])
+  for (let key in gameData.elements) {
+    elements[key].setData(gameData.elements[key])
   }
+  data.victory = gameData.victory
 }
 
 function resetGame () {
@@ -345,5 +406,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateGameState()
     autoSave()
     updateGameScreen()
+    updateStartupScreen()
   }
 }, false)
